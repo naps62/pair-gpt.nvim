@@ -1,19 +1,17 @@
-# pAIr
+# pair GPT - Neovim plugin
 
 [packer]: https://github.com/wbthomason/packer.nvim
 [openai-api]: https://openai.com/api/
 [openai-pricing]: https://openai.com/api/pricing/
 [openai-apikeys]: https://beta.openai.com/account/api-keys
 
-A GPT-assisted pair programming partner.
+A GPT-assisted pair programming partner for Neovim.
 
 [![asciicast](https://asciinema.org/a/gIXsFqG3ZDVhVFRkpIkBipz9I.svg)](https://asciinema.org/a/gIXsFqG3ZDVhVFRkpIkBipz9I)
-
 
 # Prerequisites
 
 You need an account for [OpenAI's API][openai-api]. Check out the [pricing page][openai-pricing] to see how far you can go with the free plan (spoiler alert: should be more than enough to take this plugin out for a testdrive).
-
 
 # Install
 
@@ -26,7 +24,7 @@ You need an account for [OpenAI's API][openai-api]. Check out the [pricing page]
 With [packer][packer]:
 
 ```vimscript
-use { 'naps62/pair-gpt', rtp = "nvim" }
+use 'naps62/pair-gpt.nvim'
 ```
 
 # Usage
