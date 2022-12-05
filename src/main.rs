@@ -30,7 +30,7 @@ struct Args {
     #[arg(short = 't', long, default_value_t = 1024)]
     max_tokens: i32,
 
-    #[arg(long, default_value_t = String::from("https://api.openapi.com/v1/completions"), env = "OPENAI_ENDPOINT")]
+    #[arg(long, default_value_t = String::from("https://api.openai.com/v1/completions"), env = "OPENAI_ENDPOINT")]
     endpoint: String,
 }
 
