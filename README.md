@@ -3,6 +3,7 @@
 [packer]: https://github.com/wbthomason/packer.nvim
 [openai-api]: https://openai.com/api/
 [openai-pricing]: https://openai.com/api/pricing/
+[openai-apikeys]: https://beta.openai.com/account/api-keys
 
 A GPT-assisted pair programming partner.
 
@@ -16,7 +17,7 @@ You need an account for [OpenAI's API][openai-api]. Check out the [pricing page]
 
 # Install
 
-1. Create an API key through OpenAI's dashboard, and set it to an `OPENAI_API_KEY` environment variable.
+1. Create an API key through [OpenAI's dashboard][openai-apikeys], and set it to an `OPENAI_API_KEY` environment variable.
 2. Install the `pair-gpt` binary: `cargo install --git https://github.com/naps62/pair-gpt`
 3. Setup the vim plugin (see below)
 
