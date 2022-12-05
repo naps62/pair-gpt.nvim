@@ -1,4 +1,3 @@
-use bat::PrettyPrinter;
 use clap::{Parser, Subcommand};
 use serde_json::{from_str, json, Value};
 
@@ -65,15 +64,7 @@ async fn main() -> anyhow::Result<()> {
     let choice = &value["choices"][0]["text"];
     let code = snailquote::unescape(&choice.to_string()).unwrap();
 
-    if args.color {
-        PrettyPrinter::new()
-            .input_from_bytes(code.as_bytes())
-            .language(&args.lang)
-            .print()
-            .unwrap();
-    } else {
-        println!("{code}");
-    }
+    println!("{code}");
 
     Ok(())
 }
