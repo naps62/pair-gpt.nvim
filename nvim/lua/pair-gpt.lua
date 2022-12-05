@@ -1,7 +1,7 @@
 local api = vim.api
 local o = vim.o
 
-local bin = "~/projects/pair/target/release/pair-gpt"
+local bin = "pair-gpt"
 
 local function clean_prompt(prompt)
   local stripable = "/\\%*-"
