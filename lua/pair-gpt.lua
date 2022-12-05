@@ -15,6 +15,7 @@ end
 
 local function pair_cmd(subcmd, lang, prompt)
   local cmd = bin .. " --lang " .. lang .. " " .. subcmd .. " \" " .. prompt .. "\""
+  print(cmd)
 
   -- run cmd
   local handle = assert(io.popen(cmd, 'r'))

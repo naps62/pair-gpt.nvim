@@ -1,8 +1,6 @@
 use clap::{Parser, Subcommand};
 use serde_json::{from_str, json, Value};
 
-const ENDPOINT: &str = "https://api.openai.com/v1/completions";
-
 #[derive(Parser, Debug)]
 struct WriteArgs {
     #[arg(index = 1)]
@@ -31,6 +29,9 @@ struct Args {
 
     #[arg(short = 't', long, default_value_t = 1024)]
     max_tokens: i32,
+
+    #[arg(long, default_value_t = String::from("https://api.openapi.com/v1/completions"), env = "OPENAI_ENDPOINT")]
+    endpoint: String,
 }
 
 fn main() -> anyhow::Result<()> {
@@ -52,7 +53,7 @@ fn main() -> anyhow::Result<()> {
         "max_tokens": args.max_tokens
     });
 
-    let resp: String = ureq::post(ENDPOINT)
+    let resp: String = ureq::post(&args.endpoint)
         .set("Authorization", format!("Bearer {}", args.api_key).as_str())
         .send_json(&body)?
         .into_string()?;
