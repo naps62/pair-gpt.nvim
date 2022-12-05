@@ -4,7 +4,7 @@ A GPT-assisted pair programming partner.
 
 # Examples
 
-`cargo run -- --lang rust --prompt "hello world" --color`
+`cargo run -- --lang rust --prompt "hello world" --color write`
 
 Result:
 
@@ -16,7 +16,7 @@ fn main() {
 
 ---
 
-`cargo run -- --lang javascript --prompt "fetch 10 latest tweets with #portugal" --color`
+`cargo run -- --lang javascript --prompt "fetch 10 latest tweets with #portugal" --color write`
 
 Result:
 
@@ -45,3 +45,6 @@ client.get('statuses/search/recent', {q:'#portugal', count: 10}, function(error,
 });
 ```
 
+---
+
+`cargo run -- --lang rust --prompt "fn main{println!(\"{} {}\", \"Hello\", \"World\");}" --color refactor`
