@@ -48,3 +48,11 @@ client.get('statuses/search/recent', {q:'#portugal', count: 10}, function(error,
 ---
 
 `cargo run -- --lang rust --prompt "fn main{println!(\"{} {}\", \"Hello\", \"World\");}" --color refactor`
+
+Result:
+
+```rust
+fn main() {
+    println!("Hello World");
+}
+```

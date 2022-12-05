@@ -41,7 +41,7 @@ async fn main() -> anyhow::Result<()> {
     let body = match args.action {
         Action::Write => json!({
             "model": args.model,
-            "prompt": [format!("write {} code, {}", args.lang, args.prompt)],
+            "prompt": [format!("write {}, {}. Don't write explanations or anything else other than code", args.lang, args.prompt)],
             "max_tokens": args.max_tokens
         }),
         Action::Refactor => json!({
