@@ -23,11 +23,6 @@ struct Args {
     #[arg(short, long)]
     lang: String,
 
-    // #[arg(short, long)]
-    // prompt: String,
-    #[arg(short, long, default_value_t = false)]
-    color: bool,
-
     #[arg(long, env = "OPENAI_API_KEY")]
     api_key: String,
 
