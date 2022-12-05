@@ -33,8 +33,7 @@ struct Args {
     max_tokens: i32,
 }
 
-#[tokio::main]
-async fn main() -> anyhow::Result<()> {
+fn main() -> anyhow::Result<()> {
     let args = Args::parse();
 
     let body = match args.action {
@@ -50,15 +49,10 @@ async fn main() -> anyhow::Result<()> {
         }),
     };
 
-    let client = reqwest::Client::new();
-    let resp = client
-        .post(ENDPOINT)
-        .bearer_auth(args.api_key)
-        .json(&body)
-        .send()
-        .await?
-        .text()
-        .await?;
+    let resp: String = ureq::post(ENDPOINT)
+        .set("Authorization", format!("Bearer {}", args.api_key).as_str())
+        .send_json(&body)?
+        .into_string()?;
 
     let value: Value = from_str(&resp)?;
     let choice = &value["choices"][0]["text"];
