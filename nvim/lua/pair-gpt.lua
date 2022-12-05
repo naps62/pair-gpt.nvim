@@ -1,7 +1,7 @@
 local api = vim.api
 local o = vim.o
 
-local bin = "~/projects/pair/target/debug/pair-gpt"
+local bin = "~/projects/pair/target/release/pair-gpt"
 
 local function clean_prompt(prompt)
   local stripable = "/\\%*-"
@@ -30,19 +30,6 @@ local function pair_cmd(subcmd, lang, prompt)
   return lines
 end
 
-function dump(o)
-  if type(o) == 'table' then
-    local s = '{ '
-    for k, v in pairs(o) do
-      if type(k) ~= 'number' then k = '"' .. k .. '"' end
-      s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
-    end
-    return s .. '} '
-  else
-    return tostring(o)
-  end
-end
-
 local function write()
   local win = api.nvim_get_current_win()
 
@@ -56,6 +43,20 @@ local function write()
 
   api.nvim_buf_set_lines(buf, linenr, linenr, false, output)
 end
+
+-- M.send_selection = function()
+--     local line1 = vim.fn.getpos("'<")[2]
+--     local line2 = vim.fn.getpos("'>")[2]
+--
+--     local lines = ""
+--     for _, v in pairs(vim.fn.getline(line1, line2)) do
+--         lines = lines .. v .. "\n"
+--     end
+--
+--     M.send(lines)
+-- end
+--
+-- function _G.reload_current_file() vim.cmd(":luafile %") end
 
 return {
   write = write
