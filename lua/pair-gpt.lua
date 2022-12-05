@@ -14,7 +14,7 @@ local function clean_prompt(prompt)
 end
 
 local function pair_cmd(subcmd, lang, prompt)
-  local cmd = bin .. " --lang " .. lang .. " --prompt \"" .. prompt .. "\" " .. subcmd
+  local cmd = bin .. " --lang " .. lang .. " " .. subcmd .. " \" " .. prompt .. "\""
 
   -- run cmd
   local handle = assert(io.popen(cmd, 'r'))
