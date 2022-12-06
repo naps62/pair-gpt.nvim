@@ -1,16 +1,17 @@
 use clap::{Parser, Subcommand};
 use serde_json::{from_str, json, Value};
 
-#[derive(Parser, Debug)]
+#[derive(Parser, Debug, Clone)]
 struct WriteArgs {
     #[arg(index = 1)]
     prompt: String,
 }
 
-#[derive(Subcommand, Debug)]
+#[derive(Subcommand, Debug, Clone)]
 enum Action {
     Write(WriteArgs),
     Refactor(WriteArgs),
+    Explain(WriteArgs),
 }
 
 #[derive(Parser, Debug)]
@@ -34,16 +35,37 @@ struct Args {
     endpoint: String,
 }
 
+pub fn into_comment(text: String, lang: String) -> anyhow::Result<String> {
+    match lang.as_str() {
+        "rust" | "c" | "javascript" | "typescript" | "solidity" => {
+            let regex = regex::Regex::new(r"(?m)^")?;
+            Ok(regex.replace_all(&text, "// ").to_string())
+        }
+        "dockerfile" | "bash" | "zsh" | "sh" | "python" | "ruby" => {
+            let regex = regex::Regex::new(r"(?m)^")?;
+            Ok(regex.replace_all(&text, "# ").to_string())
+        }
+        "lua" | "sql" => {
+            let regex = regex::Regex::new(r"(?m)^")?;
+            Ok(regex.replace_all(&text, "-- ").to_string())
+        }
+        _ => Ok(text),
+    }
+}
+
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
 
-    let prompt = match args.action {
+    let prompt = match args.action.clone() {
         Action::Write(WriteArgs { prompt }) => format!(
             "write {}, {}. Don't write explanations or anything else other than code",
             args.lang, prompt
         ),
         Action::Refactor(WriteArgs { prompt }) => {
-            format!("refactor this {} code: ```{}```", args.lang, prompt)
+            format!("refactor this {} code: ```\n{}```", args.lang, prompt)
+        }
+        Action::Explain(WriteArgs { prompt }) => {
+            format!("explain this {} code: ```\n{}```", args.lang, prompt)
         }
     };
 
@@ -60,7 +82,15 @@ fn main() -> anyhow::Result<()> {
 
     let value: Value = from_str(&resp)?;
     let choice = &value["choices"][0]["text"];
-    let code = snailquote::unescape(&choice.to_string()).unwrap();
+    let mut code = snailquote::unescape(&choice.to_string())
+        .unwrap()
+        .trim()
+        .to_string();
+
+    if let Action::Explain(_) = args.action {
+        code = textwrap::fill(&code, 80);
+        code = into_comment(code, args.lang)?;
+    }
 
     println!("{code}");
 

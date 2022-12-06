@@ -37,7 +37,6 @@ local function pair_cmd(subcmd, lang, prompt)
   parts[#parts + 1] = subcmd
   parts[#parts + 1] = "\"" .. prompt .. "\""
   local cmd = table.concat(parts, " ")
-  print(cmd)
 
   -- run cmd
   local handle = assert(io.popen(cmd, 'r'))
@@ -99,14 +98,25 @@ local function refactor()
   -- TODO currently replacing whole lines, not exact visual selection
   -- api.nvim_buf_set_text(buf, s_start[2] - 1, s_start[3] - 1, s_end[2] - 1, s_end[3], output)
   api.nvim_buf_set_lines(buf, s_start[2] - 1, s_end[2], false, output)
-
 end
 
---
--- function _G.reload_current_file() vim.cmd(":luafile %") end
+local function explain()
+  local s_start = fn.getpos("'<")
+  local s_end = fn.getpos("'>")
+  local lang = o.syntax
+  local buf = api.nvim_get_current_buf()
+
+  local input = clean_prompt(get_visual_selection(buf))
+  local output = pair_cmd("explain", lang, input)
+
+  -- write output right below the selection line
+  -- TODO currently selecting whole lines, not exact visual selection
+  api.nvim_buf_set_lines(buf, s_start[2] - 1, s_start[2] - 1, false, output)
+end
 
 return {
   setup = setup,
   write = write,
-  refactor = refactor
+  refactor = refactor,
+  explain = explain,
 }

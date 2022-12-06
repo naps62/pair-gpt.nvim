@@ -5,6 +5,7 @@ set cpo&vim
 
 command! -range PairGPTWrite lua require'pair-gpt'.write()
 command! -range PairGPTRefactor lua require'pair-gpt'.refactor()
+command! -range PairGPTExplain lua require'pair-gpt'.explain()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
