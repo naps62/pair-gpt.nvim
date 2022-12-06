@@ -17,23 +17,58 @@ A GPT-assisted pair programming partner for Neovim.
 
 [![asciicast](https://asciinema.org/a/0IrC8uV5aHt4kXnfJK273Hcez.svg)](https://asciinema.org/a/0IrC8uV5aHt4kXnfJK273Hcez)
 
-## Prerequisites
+## Install
 
 You need an account for [OpenAI's API][openai-api]. Check out the [pricing page][openai-pricing] to see how far you can go with the free plan (spoiler alert: should be more than enough to take this plugin out for a testdrive).
 
-## Install
+Export the API key as an environment variable. Add this to your `.bashrc` / `.zshrc` / etc:
 
-1. Create an API key through [OpenAI's dashboard][openai-apikeys], and set it to an `OPENAI_API_KEY` environment variable.
-2. Install the `pair-gpt` binary: `cargo install --git https://github.com/naps62/pair-gpt`
-3. Setup the vim plugin (see below)
+```
+export OPENAI_API_KEY=xxxxxxxxxxxxxxx
+```
+
+Install the binary:
+
+```bash
+cargo install --git https://github.com/naps62/pair-gpt.nvim
+```
+
+Install the plugin: with [packer][packer]
+
+```vim
+" with vim-plug:
+Plug 'naps62/pair-gpt.nvim'
+
+" with packer:
+use { 'naps62/pair-gpt.nvim',
+  config = function()
+    require('pair-gpt').setup()
+  end
+}
+```
+
+## Setup (optional)
+
+Setup should be run in a lua file or in a lua heredoc [:help lua-heredoc](https://neovim.io/doc/user/lua.html) if using in a vim file.
+
+```lua
+-- examples for your init.lua
+
+-- empty setup using defaults
+-- can be done directly via packer's config option, as seen above
+require("pair-gpt.nvim").setup()
+
+-- OR setup with some options
+require("pair-gpt.nvim").setup({
+  bin = "pair-gpt",
+  model = "text-davinci-001"
+})
+```
 
 ### Vim plugin setup
 
 With [packer][packer]:
 
-```vimscript
-use 'naps62/pair-gpt.nvim'
-```
 
 ## Usage
 

@@ -2,21 +2,42 @@ local api = vim.api
 local o = vim.o
 local fn = vim.fn
 
-local bin = "pair-gpt"
+local config = {}
+
+local DEFAULT_OPTS = {
+  bin = "pair-gpt",
+  model = "text-davinci-003"
+}
+
+local function merge_options(conf)
+  return vim.tbl_deep_extend("force", DEFAULT_OPTS, conf or {})
+end
+
+local function setup(conf)
+  local opts = merge_options(conf)
+  config = opts
+end
 
 local function clean_prompt(prompt)
-  local stripable = "/\\%*-"
+  local stripable = "/\\%*-%s"
   local ret = prompt
 
-  ret = prompt:gsub("^[" .. stripable .. "]", "")
-  ret = ret:gsub("[" .. stripable .. "]$", "")
+  ret = prompt:gsub("^[" .. stripable .. "]*", "")
+  ret = ret:gsub("[" .. stripable .. "]*$", "")
   ret = ret:gsub("\"", "\\\"")
 
   return ret
 end
 
 local function pair_cmd(subcmd, lang, prompt)
-  local cmd = bin .. " --lang " .. lang .. " " .. subcmd .. " \" " .. prompt .. "\""
+  local parts = {}
+  parts[#parts + 1] = config.bin
+  parts[#parts + 1] = "--lang " .. lang
+  parts[#parts + 1] = "--model " .. config.model
+  parts[#parts + 1] = subcmd
+  parts[#parts + 1] = "\"" .. prompt .. "\""
+  local cmd = table.concat(parts, " ")
+  print(cmd)
 
   -- run cmd
   local handle = assert(io.popen(cmd, 'r'))
@@ -85,6 +106,7 @@ end
 -- function _G.reload_current_file() vim.cmd(":luafile %") end
 
 return {
+  setup = setup,
   write = write,
   refactor = refactor
 }

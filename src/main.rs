@@ -24,7 +24,7 @@ struct Args {
     #[arg(long, env = "OPENAI_API_KEY")]
     api_key: String,
 
-    #[arg(short, long, default_value_t = String::from("text-davinci-003"))]
+    #[arg(short, long, default_value_t = String::from("text-davinci-001"))]
     model: String,
 
     #[arg(short = 't', long, default_value_t = 1024)]
