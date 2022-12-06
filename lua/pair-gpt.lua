@@ -24,7 +24,7 @@ local function pair_cmd(subcmd, lang, prompt)
   handle:close()
 
   -- split by lines
-  lines = {}
+  local lines = {}
   for s in output:gmatch("[^\r\n]+") do
     table.insert(lines, s)
   end
@@ -50,9 +50,11 @@ local function get_visual_selection(buf)
 end
 
 local function write()
+  local win = api.nvim_get_current_win()
   local line = api.nvim_get_current_line()
   local lang = o.syntax
   local buf = api.nvim_get_current_buf()
+  local linenr = api.nvim_win_get_cursor(win)[1]
 
   -- clean prompt. remove comment characters
   local prompt = clean_prompt(line)
@@ -60,7 +62,7 @@ local function write()
   -- query OpenAI. this is blocking
   local output = pair_cmd("write", lang, prompt)
 
-  api.nvim_buf_set_lines(buf, 0, 0, false, output)
+  api.nvim_buf_set_lines(buf, linenr, linenr, false, output)
 end
 
 local function refactor()
