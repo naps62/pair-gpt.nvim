@@ -82,6 +82,7 @@ local function write()
   -- query OpenAI. this is blocking
   local output = pair_cmd("write", lang, prompt)
 
+  -- write to output
   api.nvim_buf_set_lines(buf, linenr, linenr, false, output)
 end
 
@@ -102,16 +103,16 @@ end
 
 local function explain()
   local s_start = fn.getpos("'<")
-  local s_end = fn.getpos("'>")
+  -- local s_end = fn.getpos("'>")
   local lang = o.syntax
   local buf = api.nvim_get_current_buf()
 
   local input = clean_prompt(get_visual_selection(buf))
   local output = pair_cmd("explain", lang, input)
 
-  -- write output right below the selection line
-  -- TODO currently selecting whole lines, not exact visual selection
+  -- write output right above the prompt
   api.nvim_buf_set_lines(buf, s_start[2] - 1, s_start[2] - 1, false, output)
+
 end
 
 return {

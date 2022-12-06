@@ -65,7 +65,10 @@ fn main() -> anyhow::Result<()> {
             format!("refactor this {} code: ```\n{}```", args.lang, prompt)
         }
         Action::Explain(WriteArgs { prompt }) => {
-            format!("explain this {} code: ```\n{}```", args.lang, prompt)
+            format!(
+                "write a comment explaining this {} code: ```\n{}```",
+                args.lang, prompt
+            )
         }
     };
 
