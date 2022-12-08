@@ -70,20 +70,21 @@ local function get_visual_selection(buf)
 end
 
 local function write()
+  local s_start = fn.getpos("'<")
+  local s_end = fn.getpos("'>")
   local win = api.nvim_get_current_win()
-  local line = api.nvim_get_current_line()
   local lang = o.syntax
   local buf = api.nvim_get_current_buf()
   local linenr = api.nvim_win_get_cursor(win)[1]
 
   -- clean prompt. remove comment characters
-  local prompt = clean_prompt(line)
+  local prompt = clean_prompt(get_visual_selection(buf))
 
   -- query OpenAI. this is blocking
   local output = pair_cmd("write", lang, prompt)
 
   -- write to output
-  api.nvim_buf_set_lines(buf, linenr, linenr, false, output)
+  api.nvim_buf_set_lines(buf, s_end[2], s_end[2], false, output)
 end
 
 local function refactor()
@@ -92,8 +93,11 @@ local function refactor()
   local lang = o.syntax
   local buf = api.nvim_get_current_buf()
 
-  local input = clean_prompt(get_visual_selection(buf))
-  local output = pair_cmd("refactor", lang, input)
+  -- clean prompt. remove comment characters
+  local prompt = clean_prompt(get_visual_selection(buf))
+
+  -- query OpenAI. this is blocking
+  local output = pair_cmd("refactor", lang, prompt)
 
   -- writ_ output right below the prompt line
   -- TODO currently replacing whole lines, not exact visual selection

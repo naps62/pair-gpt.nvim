@@ -47,9 +47,7 @@ use { 'naps62/pair-gpt.nvim',
 }
 ```
 
-## Setup (optional)
-
-Setup should be run in a lua file or in a lua heredoc [:help lua-heredoc](https://neovim.io/doc/user/lua.html) if using in a vim file.
+Setup should be included in a lua file or in a lua heredoc [:help lua-heredoc](https://neovim.io/doc/user/lua.html) if using in a vim file.
 
 ```lua
 -- examples for your init.lua
@@ -65,15 +63,13 @@ require("pair-gpt.nvim").setup({
 })
 ```
 
-### Vim plugin setup
-
-With [packer][packer]:
-
-
 ## Usage
 
 Open a file with your editor. ensure filetype detection is live (this plugin uses that to pass down to the bot).
+The full list of commands is below. Note that all commands that work on a visual range also fallback to the current line the cursor is in.
 
-There's currently a single command (with more to come):
-
-* `PairGPTWrite` - takes the current line, and sends that as a query to OpenAI. Comment characters such as `//` at the beginning or end of the line are automatically removed. The output from the bot will be written right below this line
+| Command         | type  | description                                                                     |
+| ---             | ---   | ---                                                                             |
+| PairGPTWrite    | range | writes code based on a text prompt                                              |
+| PairGPTRefactor | range | attempts to refactor the selected code (or current line)                        |
+| PairGPTExplain  | range | writes a comment above the code with a natural-text explanation of what it does |
