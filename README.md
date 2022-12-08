@@ -68,8 +68,8 @@ require("pair-gpt.nvim").setup({
 Open a file with your editor. ensure filetype detection is live (this plugin uses that to pass down to the bot).
 The full list of commands is below. Note that all commands that work on a visual range also fallback to the current line the cursor is in.
 
-| Command         | type  | description                                                                     |
-| ---             | ---   | ---                                                                             |
-| PairGPTWrite    | range | writes code based on a text prompt                                              |
-| PairGPTRefactor | range | attempts to refactor the selected code (or current line)                        |
-| PairGPTExplain  | range | writes a comment above the code with a natural-text explanation of what it does |
+| Command            | type  | description                                                                     |
+| ---                | ---   | ---                                                                             |
+| `:PairGPTWrite`    | range | writes code based on a text prompt                                              |
+| `:PairGPTRefactor` | range | attempts to refactor the selected code (or current line)                        |
+| `:PairGPTExplain`  | range | writes a comment above the code with a natural-text explanation of what it does |
