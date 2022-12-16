@@ -54,10 +54,10 @@ Setup should be included in a lua file or in a lua heredoc [:help lua-heredoc](h
 
 -- empty setup using defaults
 -- can be done directly via packer's config option, as seen above
-require("pair-gpt.nvim").setup()
+require("pair-gpt").setup()
 
 -- OR setup with some options
-require("pair-gpt.nvim").setup({
+require("pair-gpt").setup({
   bin = "pair-gpt",
   model = "text-davinci-001"
 })
